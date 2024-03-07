@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Timer</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #37ee9f;
+            font-family: Arial, sans-serif;
+        }
+        .container{
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container h1{
+            font-size: 40px;
+        }
+        .tab{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            text-align: center;
+            width: 300px;
+            background-color: #1baa6c;
+            margin-block: 15px;
+            padding: 10px;
+            border-radius: 20px;
+            margin-left: 20px;
+            font-size: 19px;
+            font-weight: 600;
+            box-shadow: 0px 0px 15px 8px rgba(0,0,0,0.5);
+        }
+
+        .timer{
+            width: 300px;
+            height: 300px;
+            margin: 25px;
+            background-color: #1baa6c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 0px 15px 8px rgba(0,0,0,0.5);
+        }
+
+        .circle{
+            width: 265px;
+            height: 265px;
+            border: solid 5px #361159;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 600;
+        }
+        .controls{
+            display: flex;
+            justify-content: space-around;
+        }
+        .controls button{
+            width: 100px;
+            height: 30px;
+            border: none;
+            background-color: #361159;
+            border-radius: 5px;
+            font-size: 20px;
+            color: #ffffff;
+        }
+        .controls a{
+            width: 100px;
+            height: 30px;
+            background-color: #361159;
+            border: none;
+            border-radius: 5px;
+            font-size: 23px;
+            color: #ffffff;
+            text-decoration: none;
+            text-align: center;
+            padding-top: 2px;
+        }
+        .time{
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            font-size: 60px;
+        }
+        #study{
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container_content">
+             <h1> Study Timer</h1>
+
+            <div class="tab">
+                <p id="study">Study</p>
+                <p id="break">Break</p>
+            </div>
+
+            <div class="timer">
+                <div class="circle">
+                    <div class="time">
+                        <p id="minutes"></p>
+                        <p>:</p>
+                        <p id="seconds"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="start" onclick="start()">Start</button>
+ 
+                <a id="reset" href="./index.html">Reset</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let workTittle = document.getElementById('study');
+        let breakTittle = document.getElementById('break');
+
+        let studyTime = 30;
+        let breakTime = 10;
+
+        let seconds = "00"
+
+        window.onload = () => {
+        document.getElementById('minutes').innerHTML = studyTime;
+        document.getElementById('seconds').innerHTML = seconds;
+        }
+
+        function start() {
+        document.getElementById('start').style.display = "none";
+        document.getElementById('reset').style.display = "block";
+    
+        seconds = 59;
+
+        let studyMinutes = studyTime - 1;
+        let breakMinutes = breakTime - 1;
+
+        breakCount = 0;
+
+        let timerFunction = () => {
+        
+        document.getElementById('minutes').innerHTML = studyMinutes;
+        document.getElementById('seconds').innerHTML = seconds;
+        
+        seconds = seconds - 1;
+        
+        if(seconds === 0) {
+            studyMinutes = studyMinutes - 1;
+            
+            if(studyMinutes === -1 ){
+                workTittle.style.color = "white";
+                breakTittle.style.color = "Black";
+
+                if(breakCount % 2 === 0) {
+                    workTittle.style.color = "Black";
+                    breakTittle.style.color = "white";
+                    studyMinutes = breakMinutes;
+                    breakCount++
+                }
+                else {
+                    breakTittle.style.color = "Black";
+                    workTittle.style.color = "white";
+                    studyMinutes = studyTime - 1;
+                    breakCount++                  
+                }
+            }
+            seconds = 59;
+        }
+    }
+
+
+    setInterval(timerFunction, 1000);
+}
+    </script>
+</body>
+</html>
